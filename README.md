@@ -8,10 +8,10 @@ However the plugin was made for russia server so we translated all to english.
 SourceMod and their plugins are licensed under GNU Public License 3.0.
 
 # Credits
-Ah_Roon - Translated back to English from Russian
-BloodyBlade - Made the TLS Update compatible
-Explait - The original creator of Shop plugin
-And special thanks to all server owner for using our plugin :)
+* Ah_Roon - Translated back to English from Russian
+* BloodyBlade - Made the TLS Update compatible
+* Explait - The original creator of Shop plugin
+* And special thanks to all server owner for using our plugin :)
 
 # Note
 Global is the version which is changed to default prefix, `[SM]`.
