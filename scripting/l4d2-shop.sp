@@ -9,16 +9,16 @@ public Plugin myinfo =
 	name = "Shop", 
 	author = "Ah_Roon, Explait, BloodyBlade", 
 	description = "The Last Stand Updated Shop plugin originally made by Explait", 
-	version = "1.4.5", 
+	version = "1.4.6", 
 	url = "https://ahroonsparadise.github.io/"
 }
 
 int g_iCredits[MAXPLAYERS + 1], 
 	cooldownTimes[MAXPLAYERS + 1] = {-1, ...}, 
 	ZombieKilled = 1, 
-	InfectedKilled = 2, 
-	WitchKilled = 3, 
-	TankKilled = 4;
+	InfectedKilled = 3,
+	WitchKilled = 5,
+	TankKilled = 10;
 
 public void OnPluginStart()
 {
@@ -42,11 +42,11 @@ public Action HinT(int client, int args)
     int currentTime = GetTime();
     if (cooldownTimes[client] != -1 && cooldownTimes[client] > currentTime)
     {
-        ReplyToCommand(client, "[SM] Please wait few more seconds before using Shop again");
+        ReplyToCommand(client, "[Shop] Please wait few more seconds before using Shop again");
         return Plugin_Handled;
     }
     
-    cooldownTimes[client] = currentTime + 3;
+    cooldownTimes[client] = currentTime + 5;
     //End Timer
 
     Menu menu = new Menu(MeleeMenuHandler);
@@ -71,13 +71,13 @@ public Action GiveMoney(int client, int args)
 
 	if (args != 2)
 	{
-		PrintToChat(client, "[SM] Usage: !givemoney <player> <money>");
+		PrintToChat(client, "[Shop] Usage: !givemoney <player> <money>");
 	}
 
 	g_iCredits[target] += money;
 	char name[MAX_NAME_LENGTH];
 	GetClientName(target, name, sizeof(name));
-	PrintToChat(client, "[SM] You gave %i to %s", money, name);
+	PrintToChat(client, "[Shop] You gave %i to %s", money, name);
 }
 
 public void witch_killed(Event event, const char[] name, bool dontBroadcast)
@@ -187,12 +187,12 @@ public Action Pay(int client, int args)
 	paymoney = StringToInt(arg2);
 	int target = FindTarget(client, arg1);
 	if (target == -1) return Plugin_Handled;
-	if (args != 2) ReplyToCommand(client, "[SM] Usage: !pay <name> <money>");
+	if (args != 2) ReplyToCommand(client, "[Shop] Usage: !pay <name> <money>");
 
 	g_iCredits[target] += paymoney;
 	g_iCredits[client] -= paymoney;
-	PrintToChat(target, "[SM] %s gave you %i", client, paymoney);
-	PrintToChat(client, "[SM] You gave %i to player", paymoney);
+	PrintToChat(target, "[Shop] %s gave you %i", client, paymoney);
+	PrintToChat(client, "[Shop] You gave %i to player", paymoney);
 	return Plugin_Handled;
 }
 
@@ -215,7 +215,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 150 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 150 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option2"))
@@ -227,7 +227,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option3"))
@@ -239,7 +239,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option4"))
@@ -251,7 +251,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option5"))
@@ -263,7 +263,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option6"))
@@ -275,7 +275,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 260 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 260 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option7"))
@@ -287,7 +287,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 250 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 250 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option8"))
@@ -299,7 +299,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 260 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 260 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option9"))
@@ -311,7 +311,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 500 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 500 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option10"))
@@ -323,7 +323,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 510 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 510 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option11"))
@@ -335,7 +335,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 1000 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 1000 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option12"))
@@ -347,7 +347,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option13"))
@@ -359,7 +359,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option14"))
@@ -371,7 +371,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option15"))
@@ -383,7 +383,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option16"))
@@ -395,7 +395,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option17"))
@@ -407,7 +407,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 400 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option18"))
@@ -419,7 +419,7 @@ public int Weapon_Menu_Handle(Menu wmenu, MenuAction action, int client, int Pos
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 500 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 500 but you only have %i", g_iCredits[client]);
 			}
 		}
 	}
@@ -445,7 +445,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option2"))
@@ -457,7 +457,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option3"))
@@ -469,7 +469,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option4"))
@@ -481,7 +481,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option5"))
@@ -493,7 +493,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option6"))
@@ -505,7 +505,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option7"))
@@ -517,7 +517,7 @@ public int Melee_Menu_Handle(Menu mmenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 300 but you only have %i", g_iCredits[client]);
 			}
 		}
 	}
@@ -543,7 +543,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 100 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 100 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option2"))
@@ -555,7 +555,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 60 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 60 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option3"))
@@ -567,7 +567,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 50 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 50 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option4"))
@@ -579,7 +579,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 200 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 200 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option5"))
@@ -591,7 +591,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 90 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 90 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option6"))
@@ -603,7 +603,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 110 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 110 but you only have %i", g_iCredits[client]);
 			}
 		}
 		if (StrEqual(Item, "option7"))
@@ -615,7 +615,7 @@ public int Other_Menu_Handle(Menu omenu, MenuAction action, int client, int Posi
 			}
 			else
 			{
-				PrintToChat(client, "[SM] You don't have enough money! You need 120 but you only have %i", g_iCredits[client]);
+				PrintToChat(client, "[Shop] You don't have enough money! You need 120 but you only have %i", g_iCredits[client]);
 			}
 		}
 	}
