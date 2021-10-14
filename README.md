@@ -6,7 +6,7 @@ Since the author is inactive we decided to improve his project.
 SourceMod and their plugins are licensed under GNU Public License 3.0.
 
 # Credits
-* Ah_Roon - Made the TLS Update compatible and made several improvements to plugin
+* Roon - Made the TLS Update compatible and made several improvements to plugin
 * BloodyBlade - Made the TLS Update compatible
 * Explait - The original creator of Shop plugin
 * And special thanks to all server owner for using our plugin :)
